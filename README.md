@@ -8,6 +8,17 @@ ESETLogCollector "analyzer"
 
 Displays several most frequently searched info from logs collected by ESET Log Collector (ELC).
 
+Main idea behind this is:
+
++ I need to frequently check same specific data from logs
++ I never write it down
++ so - I always have to look back into log files
++ there is like 100 log files
++ I never remember which file carries which data I need at the moment
++ "grep" is main helper, but sometimes I need data in more-or-less formatted form.
+
+Thus - ELCalyzer.
+
 Read only.
 
 Tested with Powershell 5 and pwsh 7 on Windows.
@@ -20,7 +31,19 @@ Default: `none`
 
 
 
+
+## Prerequisites
+
+ELC.EXE in path or folder. Can be downloaded with parameter "-DownloadELC"
+
+
+
 ## Usage
+
+1. Collect logs with ELC
+2. Unzip them in folder C:\TMP\LOGS\
+3. Position in folder C:\TMP\LOGS\
+4. Execute    `pwsh -file ELCalyzer.ps1 -all`    (see "Examples" for more.. examples)
 
 Help is included in script:   `Get-Help ELCalyzer.ps1 -full`
 
@@ -113,6 +136,7 @@ Ideas welcomed. Be reasonable, I'm just a script-kiddie.
 ###### Info
 
 + ELCalyzer v22.0303.10 Beta
++ https://github.com/SomwareHR/ELCalyzer
 + (C)2022 SomwareHR
 + License: MIT
 + SWID#20220303091402
