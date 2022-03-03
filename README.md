@@ -22,6 +22,7 @@ Thus - ELCalyzer.
 Read only.
 
 Tested with Powershell 7 on Windows (some features work on v.5)
+https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows
 
 
 
