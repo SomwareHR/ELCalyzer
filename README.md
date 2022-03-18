@@ -83,7 +83,7 @@ Default: `none`
 
 ## Demo
 
-![Output screen](ELCalyzer1.png)
+![Output screen](ELCalyzer2.png)
 
 
 
