@@ -6,23 +6,55 @@ ESETLogCollector "analyzer"
 
 ## Description
 
-Displays several most frequently searched info from logs collected by ESET Log Collector (ELC).
-
 Main idea behind this is:
 
-+ I need to frequently check same specific data from logs
-+ I never write it down
-+ so - I always have to look back into log files
-+ there is like 100 log files
-+ I never remember which file carries which data I need at the moment
-+ "grep" is main helper, but sometimes I need data in more-or-less formatted form.
++ When solving issues with ESET's program, I need to frequently check same data over and over again..
++ ..mainly I never write data down so I have to take a look or twenty back into log files
++ there is like zillion log files and I never remember which file holds the data I need at the moment
 
-Thus - ELCalyzer.
+Thus - ELCalyzer. ELCalyzer displays several most frequently searched info from various log files collected by ESET Log Collector (ELC).
 
-Read only.
 
-Tested with Powershell 7 on Windows (some features work on v.5)
-https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows
+
+## Prerequisites
+
++ Tested with Powershell 7 on Windows (some features will work on v.5)
++ [Powershell 7 installation](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows)
++ ELC.EXE in path or folder. Can be downloaded with parameter "-DownloadELC" or [manually](https://www.eset.com/int/support/log-collector/)
++ Run as administrator (for conversion)
+
+
+
+## Usage
+
++ [Download and run ELC ESETLogCollector](https://www.eset.com/int/support/log-collector/)
++ Unpack logs to a temporary folder ("C:\Temp\ELC\")
++ Run PWSH and change directory to "C:\Temp\ELC\" ("metadata.txt" and "info.xml" must be in that folder)
++ Run script: `.\ELCalyzer.ps1 -Everything`
++    or `.\ELCalyzer.ps1 -ExecutionPolicy Bypass -Everything`
+
+
+
+## ChangeLog
+
++ 22.0314.16 ... added  : RunningProcesses
++ 22.0314.15 ... added  : ScheduledTasks
++ 22.0314.10 ... added  : Hosts
++ 22.0311.16 ... added  : Expand, ExpandMore
++ 22.0311.09 ... added  : NetworkInfo
++ 22.0310.11 ... added  : IncompatibleSoftware
++ 22.0310.10 ... changed: Conversion now lists files and opens ELC in other window
++ 22.0309.10 ... fixed  : LicenseInfo >> case with multiple licenses and Expiration dates
++ 22.0308.14 ... added  : FeaturesState ... list inactive / non-integrated modules
++ 22.0304.13 ... added  : LicenseInfo displays licensed product name
++ 22.0304.13 ... added  : LicenseInfo displays license expiration
++ 22.0304.13 ... added  : LicenseInfo displays multiple WebSeatIDs
++ 22.0304.09 ... added  : WindowsUpdate
++ 22.0304.09 ... changed: LicenseInfo displays PLID from three possible locations
++ 22.0303.14 ... added  : VersionHistory shows limited number of items (limit = $ItemsLimit) just like ThreatsInfo
++ 22.0303.14 ... changed: moved DownloadELC to top so it can be executed without need to have log files in folder
++ 22.0303.14 ... fixed  : Error001 was checking wrong file, and referring to other
++ 22.0303.10 ... init   : created Github repository
 
 
 
@@ -32,74 +64,47 @@ Default: `none`
 
 
 
+### Parameters
 
-## Prerequisites
-
-ELC.EXE in path or folder. Can be downloaded with parameter "-DownloadELC"
-
-
-
-## Usage
-
-1. Collect logs with ELC
-2. Unzip them in folder C:\TMP\LOGS\
-3. Position in folder C:\TMP\LOGS\
-4. Execute    `pwsh -file ELCalyzer.ps1 -all`    (see "Examples" for more.. examples)
-
-Help is included in script:   `Get-Help ELCalyzer.ps1 -full`
-
-### NAME
-
-    E:\Dev22\ELCalyzer\ELCalyzer.ps1
-
-### SYNOPSIS
-
-    ELCalyzer v.22.0303.10 Beta
-
-    ESETLogCollector "analyzer"
-
-### SYNTAX
-
-    E:\Dev22\ELCalyzer\ELCalyzer.ps1 [-Help] [-Conversion] [-DownloadELC] [-LicInfo] [-OSInfo] [-ProgramInfo] [-RebootHistory] [-VersionHistory] [-ThreatsInfo] [-Everything] [-DisplayHeaders] [-ShowModules] [<CommonParameters>]
-
-### DESCRIPTION
-
-    ELCalyzer displays most frequently used data from uncompressed logs collected by ESET Log Collector (ELC).
-    Script must be run from ELC's root directory (where metadata.txt and info.xml files are).
-    Script should simply skip any nonexistent file.
-    (C)SomwareHR ... https://github.com/SomwareHR/elcalyzer ... License: MIT ... SWID#20220303091402
-
-### PARAMETERS
-
-    -Help
-    -Conversion         Convert .DAT to .TXT and .EVTX to .CSV
-    -DownloadELC         Download ESETLogCollector and save it to ELC.EXE in current folder.        https://download.eset.com/com/eset/tools/diagnosis/log_collector/latest/esetlogcollector.exe
-    -LicInfo         Displays license info
-    -OSInfo         Well.. displays OS info
-    -ProgramInfo         ESET's program(s) info
-    -RebootHistory         Show history of computer reboots (System:EventID:6005)
-    -VersionHistory         History of program's upgrades
-    -ThreatsInfo         Show last 5 threats from "virlog.dat"        Prerequisite: -convert
-    -DisplayHeaders         Display table headers where possible (Format-Table)
-    -ShowModules         Lists all ESET security program modules
-    -Everything
-
-### INPUTS
-    n/a
-
-### OUTPUTS
-    Text file
-
-### Examples
-
-    PS>ELCalyzer.ps1 --LicInfo ... displays license info (PLID, SeatID)
-    PS>ELCalyzer.ps1 --Convert -ThreatsInfo ... convert DAT to XML, EVTX to CSV and then display last 5 threats
-    pwsh -file elcalyzer.ps1 -all >redirect.txt ... redirect output to a file
-    pwsh -file elcalyzer.ps1 -all | clip ... (Windows) redirect output to a clipboard
+| Parameter                      |
+|--------------------------------|
+| `Get-Help ELCalyzer.ps1 -full` |
+| -Help                          |
+| -Conversion                    |
+| -LicInfo                       |
+| -OSInfo                        |
+| -ProgramInfo                   |
+| -NetworkInfo                   |
+| -WindowsUpdate                 |
+| -VersionHistory                |
+| -RebootHistory                 |
+| -Hosts                         |
+| -ScheduledTasks                |
+| -RunningProcesses              |
+| -ThreatsInfo                   |
+| -FeaturesState                 |
+| -IncompatibleSoftware          |
+| -Errors                        |
+| -DownloadELC                   |
+| -Expand                        |
+| -ExpandMore                    |
+| -Everything                    |
+| -ShowModules                   |
 
 
 
-## Output
+## Examples
+
+| Command (line parameter)                    | What does it do                                                 |
+|---------------------------------------------|-----------------------------------------------------------------|
+| .\ELCalyzer.ps1 -LicInfo                    | displays license info (PLID, SeatID)                            |
+| .\ELCalyzer.ps1 -Convert -ThreatsInfo       | convert DAT to XML, EVTX to CSV and then display last 5 threats |
+| pwsh -file elcalyzer.ps1 -all >redirect.txt | redirect output to a file                                       |
+| pwsh -file elcalyzer.ps1 -all \| clip       | (Windows) redirect output to a clipboard                        |
+
+
+
+## Demo
 
 ![Output screen](ELCalyzer1.png)
 
@@ -108,35 +113,25 @@ Help is included in script:   `Get-Help ELCalyzer.ps1 -full`
 ## ToDo
 
 
+### ToDo - Priority: High
 
-### Priority: High
-
-+ "-WindowsUpdate -wu" ... Windows update status
-+ "-NetworkInfo   -ni" ... Network info
++ Create more detailed help pages for every function
 
 
+### ToDo - Priority: Middle
 
-### Priority: Middle
-
-+ "-EnumerateFiles -ef" ... Enumerate ELC's log files and check if everything was collected
-
++ "-EnumerateFiles" ... Enumerate ELC's log files and check if everything was collected
 
 
 ### Priority: Low
 
-+ ...
-
-
-
-## Misc
-
-Ideas welcomed. Be reasonable, I'm just a script-kiddie.
++ Implement SomWare's ARSE(tm) (ARtificial Stupidity Engine) to suggest a solution based on info found in logs
 
 
 
 ###### Info
 
-+ ELCalyzer v22.0303.10 Beta
++ ELCalyzer v22.0314.16 Beta
 + https://github.com/SomwareHR/ELCalyzer
 + (C)2022 SomwareHR
 + License: MIT
